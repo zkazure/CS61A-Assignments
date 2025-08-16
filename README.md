@@ -43,9 +43,14 @@ You can fork this repository to create your own working environment, track your 
 #### 4. Test Your Work
 After completing or making progress on an assignment, use the following command to test your solution locally:
 ```bash
-python3 ok -q <file_name> --local
+python3 ok -q <function_name> --local
 ```
-Replace `<file_name>` with the name of the specific file you want to test.
+Replace `<function_name>` with the name of the specific function you want to test.
+
+If you want to test the whole file，use the following command：
+```bash
+python3 ok --local
+```
 
 ---
 
@@ -97,9 +102,14 @@ Replace `<file_name>` with the name of the specific file you want to test.
 #### 4. 测试您的代码
 完成作业或取得进展后，使用以下命令在本地测试代码：
 ```bash
-python3 ok -q <file_name> --local
+python3 ok -q <function_name> --local
 ```
-将 `<file_name>` 替换为您希望测试的具体文件名称。
+将 `<function_name>` 替换为您希望测试的具体函数名称。
+
+如果想测试整个文件，使用以下命令：
+```bash
+python3 ok --local
+```
 
 ---
 
