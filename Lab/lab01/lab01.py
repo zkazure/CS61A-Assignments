@@ -8,7 +8,14 @@ def digit(n, k):
     >>> digit(3579, 10)
     0
     """
-    return ____
+    # ans = 0
+    # k+=1
+    # while k:
+    #     ans = n%10
+    #     n //= 10
+    #     k-=1
+    # return ans
+    return n// pow(10, k)%10
 
 
 def middle(a, b, c):
@@ -26,7 +33,14 @@ def middle(a, b, c):
     >>> middle(30, 5, 40)
     30
     """
-    return ____
+    # if (a>b>c or c>b>a):
+    #     ans = b
+    # elif (b>a>c or c>a>b):
+    #     ans = a
+    # else: ans = c
+
+    # return ans
+    return a+b+c - min(a, b, c) - max(a, b, c)
 
 
 def falling(n, k):
@@ -42,6 +56,17 @@ def falling(n, k):
     1
     """
     "*** YOUR CODE HERE ***"
+    # ans = 1
+    # while k>0:
+    #     ans *= n
+    #     n-=1
+    #     k-=1
+    # # print(ans)
+    # return ans
+    total, stop = 1, n-k
+    while n>stop:
+        total, n = total*n, n-1
+    return total
 
 
 def divisible_by_k(n, k):
@@ -65,7 +90,29 @@ def divisible_by_k(n, k):
     0
     """
     "*** YOUR CODE HERE ***"
-
+    # this one is weird 
+    # ans = 0
+    # count = 0
+    # if ans+k > n:
+    #     print(0)
+    #     return
+    # else:
+    #     while 1:
+    #         ans+=k
+    #         if (ans<=n):
+    #             print(ans)
+    #             count += 1 
+    #         else:
+    #             break
+    # return count
+    count =  0
+    i = 1
+    while i<=n:
+        if i%k ==0:
+            print(i)
+            count+=1
+        i+=1
+    return count
 
 def sum_digits(y):
     """Sum all the digits of y.
@@ -81,6 +128,11 @@ def sum_digits(y):
     6
     """
     "*** YOUR CODE HERE ***"
+    sum = 0
+    while(y):
+        sum+=y%10
+        y//=10
+    return sum
 
 
 def double_eights(n):
@@ -99,4 +151,18 @@ def double_eights(n):
     False
     """
     "*** YOUR CODE HERE ***"
-
+    # count = 0
+    # while n:
+    #     tmp = n%10
+    #     if tmp == 8:
+    #         count+=1
+    #     n//=10
+    # count += 1
+    # if count==2:
+    #     return True
+    # else: return False
+    while n:
+        if n%10 == 8 and n//10%10 == 8:
+            return True
+        n //= 10
+    return False
