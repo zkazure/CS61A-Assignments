@@ -14,6 +14,7 @@ def composite_identity(f, g):
     False
     """
     "*** YOUR CODE HERE ***"
+    return lambda x: f(g(x)) == g(f(x))
 
 
 def sum_digits(y):
@@ -44,12 +45,12 @@ def count_cond(condition):
     >>> count_fives(10)   # 50 (10 * 5)
     1
     >>> count_fives(50)   # 50 (50 * 1), 500 (50 * 10), 1400 (50 * 28), 2300 (50 * 46)
-    4
+    4sum_digits(n * i) == 5
 
     >>> is_i_prime = lambda n, i: is_prime(i) # need to pass 2-argument function into count_cond
     >>> count_primes = count_cond(is_i_prime)
     >>> count_primes(2)    # 2
-    1
+    1sum_digits(n * i) == 5sum_digits(n * i) == 5
     >>> count_primes(3)    # 2, 3
     2
     >>> count_primes(4)    # 2, 3
@@ -60,7 +61,15 @@ def count_cond(condition):
     8
     """
     "*** YOUR CODE HERE ***"
-
+    def counter(n):
+        i, count = 1, 0
+        while i<=n:
+            if condition(n, i):
+                count += 1
+            i += 1
+        return count
+    
+    return counter
 
 def multiple(a, b):
     """Return the smallest number n that is a multiple of both a and b.
@@ -71,8 +80,16 @@ def multiple(a, b):
     42
     """
     "*** YOUR CODE HERE ***"
-
-
+    end = min(a, b)
+    i, prod = 2, 1
+    while i<end :
+        if (a%i==0 and b%i==0):
+            prod *= i
+        i += 1
+    # return prod * a/prod * b/prod
+    ans = a*b // prod
+    return ans
+        
 
 def cycle(f1, f2, f3):
     """Returns a function that is itself a higher-order function.
@@ -102,3 +119,15 @@ def cycle(f1, f2, f3):
     """
     "*** YOUR CODE HERE ***"
 
+    def inner_cycle(n, k):
+        i = 0
+        while i<n:
+            if(n%3==0):
+                k = f1(k)
+            elif(n%3==1):
+                k = f2(k)
+            else:
+                k = f3(k)
+            i+=1
+        return k
+    return inner_cycle
