@@ -25,7 +25,18 @@ def num_eights(n):
     True
     """
     "*** YOUR CODE HERE ***"
-
+    # count = 0
+    # while n > 0:
+    #     if n%10 == 8:
+    #         count += 1
+    #     n //= 10
+    # return count
+    if n%10 == 8:
+        return 1+num_eights(n//10)
+    elif n < 10:
+        return 0
+    else:
+        return num_eights(n//10)
 
 def digit_distance(n):
     """Determines the digit distance of n.
@@ -47,6 +58,12 @@ def digit_distance(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    if n<10:
+        return 0
+    else:
+        last = n%10
+        all_but_last = n//10
+        return abs(last - all_but_last%10) + digit_distance(all_but_last)
 
 
 def interleaved_sum(n, odd_func, even_func):
@@ -71,8 +88,15 @@ def interleaved_sum(n, odd_func, even_func):
     True
     """
     "*** YOUR CODE HERE ***"
-
-
+    def inner_is(k):
+        if k>n:
+            return 0
+        elif k==n:
+            return odd_func(k)
+        else:
+            return odd_func(k) + even_func(k+1) + inner_is( k+2)
+    return inner_is(1)
+        
 def next_smaller_dollar(bill):
     """Returns the next smaller bill in order."""
     if bill == 100:
@@ -107,7 +131,15 @@ def count_dollars(total):
     True
     """
     "*** YOUR CODE HERE ***"
-
+    def inner_count_dollars(total, bill):
+        if total == 0:
+            return 1
+        if total < 0:
+            return 0 
+        if bill == None: 
+            return 0
+        return inner_count_dollars(total, next_smaller_dollar(bill)) + inner_count_dollars(total-bill, bill)
+    return inner_count_dollars(total, 100)
 
 def next_larger_dollar(bill):
     """Returns the next larger bill in order."""
@@ -143,6 +175,17 @@ def count_dollars_upward(total):
     True
     """
     "*** YOUR CODE HERE ***"
+    def inner_function(total, bill):
+        if total == 0:
+            return 1
+        elif total < 0:
+            return 0
+        if bill == None:
+            return 0
+        a = inner_function(total, next_larger_dollar(bill))
+        b = inner_function(total-bill, bill)
+        return a+b
+    return inner_function(total, 1)
 
 
 def print_move(origin, destination):
@@ -178,6 +221,13 @@ def move_stack(n, start, end):
     """
     assert 1 <= start <= 3 and 1 <= end <= 3 and start != end, "Bad start/end"
     "*** YOUR CODE HERE ***"
+    if n==1:
+        print_move(start, end)
+    else:
+        mid = 6-start-end
+        move_stack(1, start, mid)
+        move_stack(n-1, start, end)
+        move_stack(1, mid, end)
 
 
 from operator import sub, mul
