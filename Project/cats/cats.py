@@ -38,6 +38,13 @@ def pick(paragraphs, select, k):
     """
     # BEGIN PROBLEM 1
     "*** YOUR CODE HERE ***"
+    count = -1
+    for para in paragraphs:
+        if select(para):
+            count += 1
+            if (count==k):
+                return para
+    return ''
     # END PROBLEM 1
 
 
@@ -58,6 +65,12 @@ def about(subject):
 
     # BEGIN PROBLEM 2
     "*** YOUR CODE HERE ***"
+    def word_in(s):
+        for word in subject:
+            if word in remove_punctuation(lower(s)).split():
+                return True
+        return False
+    return word_in
     # END PROBLEM 2
 
 
@@ -88,6 +101,17 @@ def accuracy(typed, source):
     source_words = split(source)
     # BEGIN PROBLEM 3
     "*** YOUR CODE HERE ***"
+    if (len(typed)==0 and len(source)==0):
+        return 100.0
+    correct = 0
+    total = len(typed.split())
+    min_len = min(total, len(source.split()))
+    for i in range(min_len):
+        if typed.split()[i] == source.split()[i]:
+            correct += 1
+    if (total==0):
+        total = 1
+    return correct/total*100
     # END PROBLEM 3
 
 
@@ -106,6 +130,7 @@ def wpm(typed, elapsed):
     assert elapsed > 0, "Elapsed time must be positive"
     # BEGIN PROBLEM 4
     "*** YOUR CODE HERE ***"
+    return len(typed)/5*60/elapsed
     # END PROBLEM 4
 
 
