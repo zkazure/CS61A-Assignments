@@ -192,6 +192,20 @@ def autocorrect(typed_word, word_list, diff_function, limit):
     """
     # BEGIN PROBLEM 5
     "*** YOUR CODE HERE ***"
+    for word in word_list:
+        if word == typed_word:
+            return word
+    min_diff = limit+1
+    ans = ''
+    for word in word_list:
+        diff = diff_function(typed_word, word, limit)
+        if min_diff > diff:
+            min_diff = diff
+            ans = word
+    if min_diff > limit:
+        return typed_word
+    else:
+        return ans
     # END PROBLEM 5
 
 
@@ -218,8 +232,17 @@ def furry_fixes(typed, source, limit):
     5
     """
     # BEGIN PROBLEM 6
-    assert False, 'Remove this line'
-    # END PROBLEM 6
+    if limit < 0:
+        return 0
+
+    if not typed or not source:
+        return abs(len(typed)-len(source))
+    
+    if typed[0] == source[0]:
+        return furry_fixes(typed[1:], source[1:], limit)
+    else:
+        return 1 + furry_fixes(typed[1:], source[1:], limit-1)
+    # END PROBLEM 
 
 
 def minimum_mewtations(typed, source, limit):
