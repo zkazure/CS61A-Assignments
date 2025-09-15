@@ -399,6 +399,17 @@ def fastest_words(words_and_times):
     word_indices = range(len(words))    # contains an *index* for each word
     # BEGIN PROBLEM 10
     "*** YOUR CODE HERE ***"
+    ans = [[] for _ in player_indices]
+    
+    for i in word_indices:
+        min_time = times[0][i]
+        for j in player_indices:
+            min_time = min(min_time, times[j][i])
+        for j in player_indices:
+            if times[j][i] == min_time:
+                ans[j] += [words[i]]
+                break
+    return ans
     # END PROBLEM 10
 
 
