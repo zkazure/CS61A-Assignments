@@ -1,0 +1,27 @@
+#+TITLE: README
+
+* Core classes
+
+- GameState
+  + colony
+  + available food
+  + time passing
+  + where the AntHomeBase is
+  + all Place s
+- Place
+  + single place holding insects
+  + one ant per place, no limit bees.
+  + exit to left and entrance to right
+- Hive: the origin of Bees
+- AntHomeBase: as the name saying.
+- Insect: include Ant and Bee.
+  + health
+  + place: location
+  + action
+- Ant
+  + HarvesterAnt gets food
+  + ThrowerAnt for attacking.
+  + food_cost: the cost to deploy one unit of that type of ant.
+- Bee
+  
+    
