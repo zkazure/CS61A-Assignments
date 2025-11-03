@@ -1,6 +1,7 @@
 """CS 61A presents Ants Vs. SomeBees."""
 
 import random
+from typing import override
 from ucb import main, interact, trace
 from collections import OrderedDict
 
@@ -313,17 +314,23 @@ class ContainerAnt(Ant):
         super().__init__(health)
         self.ant_contained = None
 
-    def can_contain(self, other):
+    def can_contain(self, other:'Ant'):
         # BEGIN Problem 8a
         "*** YOUR CODE HERE ***"
+        if not self.ant_contained and not other.is_container:
+            return True
+
+        return False
         # END Problem 8a
 
     def store_ant(self, ant):
         # BEGIN Problem 8a
         "*** YOUR CODE HERE ***"
+        if (not self.ant_contained):
+            self.ant_contained = ant
         # END Problem 8a
 
-    def remove_ant(self, ant):
+    def remove_ant(self, ant:'Ant'):
         if self.ant_contained is not ant:
             assert False, "{} does not contain {}".format(self, ant)
         self.ant_contained = None
@@ -338,9 +345,11 @@ class ContainerAnt(Ant):
             # default to normal behavior
             Ant.remove_from(self, place)
 
-    def action(self, gamestate):
+    def action(self, gamestate:'GameState'):
         # BEGIN Problem 8a
         "*** YOUR CODE HERE ***"
+        if (self.ant_contained):
+            self.ant_contained.action(gamestate);
         # END Problem 8a
 
 
