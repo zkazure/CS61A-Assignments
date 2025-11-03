@@ -408,6 +408,11 @@ class Water(Place):
 
 # BEGIN Problem 11
 # The ScubaThrower class
+class ScubaThrower(ThrowerAnt):
+    name = 'Scuba'
+    food_cost = 6
+    is_waterproof = True
+    implemented = True
 # END Problem 11
 
 
