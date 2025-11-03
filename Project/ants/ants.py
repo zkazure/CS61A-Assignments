@@ -285,17 +285,21 @@ class HungryAnt(Ant):
     implemented = True
     
     chew_cooldown = 3
-    cooldown = 0
 
     def __init__(self, health=1):
         super().__init__(health)
+        self.cooldown = 0
+        
 
     def action(self, gamestate:'GameState'):
         if self.cooldown > 0:
+            self.cooldown -= 1
             return
         bee = random_bee(self.place.bees)
         if bee:
             bee.reduce_health(bee.health)
+            self.cooldown = self.chew_cooldown
+        
 # END Problem 7
 
 
