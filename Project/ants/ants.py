@@ -355,7 +355,7 @@ class ContainerAnt(Ant):
         # BEGIN Problem 8a
         "*** YOUR CODE HERE ***"
         if (self.ant_contained):
-            self.ant_contained.action(gamestate);
+            self.ant_contained.action(gamestate)
         # END Problem 8a
 
 
@@ -374,6 +374,19 @@ class BodyguardAnt(ContainerAnt):
 
 # BEGIN Problem 9
 # The TankAnt class
+class TankAnt(ContainerAnt):
+    name = 'Tank'
+    food_cost = 6
+    damage = 1
+    implemented = True
+
+    def __init__(self):
+        super().__init__(2)
+
+    def action(self, gamestate: 'GameState'):
+        for bee in self.place.bees[:]:
+            bee.reduce_health(self.damage)
+        super().action(gamestate)
 # END Problem 9
 
 
