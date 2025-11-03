@@ -13,7 +13,7 @@ class Place:
     """A Place holds insects and has an exit to another Place."""
     is_hive = False
 
-    def __init__(self, name, exit=None):
+    def __init__(self, name: str, exit:'Place|None'=None):
         """Create a Place with the given NAME and EXIT.
 
         name -- A string; the name of this Place.
@@ -27,15 +27,17 @@ class Place:
         # Phase 1: Add an entrance to the exit
         # BEGIN Problem 2
         "*** YOUR CODE HERE ***"
+        if exit:
+            exit.entrance = self
         # END Problem 2
 
-    def add_insect(self, insect):
+    def add_insect(self, insect:'Insect'):
         """Asks the insect to add itself to this place. This method exists so
         that it can be overridden in subclasses.
         """
         insect.add_to(self)
 
-    def remove_insect(self, insect):
+    def remove_insect(self, insect:'Insect'):
         """Asks the insect to remove itself from this place. This method exists so
         that it can be overridden in subclasses.
         """
@@ -52,7 +54,7 @@ class Insect:
     damage = 0
     # ADD CLASS ATTRIBUTES HERE
 
-    def __init__(self, health, place=None):
+    def __init__(self, health:int, place:'Place|None'=None):
         """Create an Insect with a health amount and a starting PLACE."""
         self.health = health
         self.place = place
@@ -61,7 +63,7 @@ class Insect:
         self.id = Insect.next_id
         Insect.next_id += 1
 
-    def reduce_health(self, amount):
+    def reduce_health(self, amount:int):
         """Reduce health by AMOUNT, and remove the insect from its place if it
         has no health remaining.
 
@@ -75,16 +77,16 @@ class Insect:
             self.zero_health_callback()
             self.place.remove_insect(self)
 
-    def action(self, gamestate):
+    def action(self, gamestate:'GameState'):
         """The action performed each turn."""
 
     def zero_health_callback(self):
         """Called when health reaches 0 or below."""
 
-    def add_to(self, place):
+    def add_to(self, place:'Place'):
         self.place = place
 
-    def remove_from(self, place):
+    def remove_from(self, place:'Place'):
         self.place = None
 
     def __repr__(self):
@@ -112,7 +114,7 @@ class Ant(Insect):
     def remove_ant(self, other):
         assert False, "{0} cannot contain an ant".format(self)
 
-    def add_to(self, place):
+    def add_to(self, place:'Place'):
         if place.ant is None:
             place.ant = self
         else:
@@ -143,6 +145,7 @@ class HarvesterAnt(Ant):
     name = 'Harvester'
     implemented = True
     # OVERRIDE CLASS ATTRIBUTES HERE
+    food_cost = 2
 
     def action(self, gamestate):
         """Produce 1 additional food for the colony.
@@ -151,6 +154,7 @@ class HarvesterAnt(Ant):
         """
         # BEGIN Problem 1
         "*** YOUR CODE HERE ***"
+        gamestate.food += 1
         # END Problem 1
 
 
@@ -161,6 +165,9 @@ class ThrowerAnt(Ant):
     implemented = True
     damage = 1
     # ADD/OVERRIDE CLASS ATTRIBUTES HERE
+    food_cost = 3
+    lower_bound = 0
+    upper_bound = float('inf')
 
     def nearest_bee(self):
         """Return the nearest Bee in a Place (that is not the hive) connected to
@@ -169,7 +176,14 @@ class ThrowerAnt(Ant):
         This method returns None if there is no such Bee (or none in range).
         """
         # BEGIN Problem 3 and 4
-        return random_bee(self.place.bees) # REPLACE THIS LINE
+        # return random_bee(self.place.bees) # REPLACE THIS LINE
+        place, idx= self.place, 0
+        while not place.is_hive:
+            bee = random_bee(place.bees)
+            if bee is not None and idx>=self.lower_bound and idx<=self.upper_bound: 
+                return bee 
+            place, idx = place.entrance, idx+1
+        return None
         # END Problem 3 and 4
 
     def throw_at(self, target):
@@ -177,7 +191,7 @@ class ThrowerAnt(Ant):
         if target is not None:
             target.reduce_health(self.damage)
 
-    def action(self, gamestate):
+    def action(self, gamestate:'GameState'):
         """Throw a leaf at the nearest Bee in range."""
         self.throw_at(self.nearest_bee())
 
@@ -201,7 +215,8 @@ class ShortThrower(ThrowerAnt):
     food_cost = 2
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem 4
-    implemented = False   # Change to True to view in the GUI
+    implemented = True   # Change to True to view in the GUI
+    upper_bound = 3
     # END Problem 4
 
 
@@ -212,7 +227,8 @@ class LongThrower(ThrowerAnt):
     food_cost = 2
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem 4
-    implemented = False   # Change to True to view in the GUI
+    implemented = True   # Change to True to view in the GUI
+    lower_bound = 5
     # END Problem 4
 
 
@@ -224,7 +240,7 @@ class FireAnt(Ant):
     food_cost = 5
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem 5
-    implemented = False   # Change to True to view in the GUI
+    implemented = True   # Change to True to view in the GUI
     # END Problem 5
 
     def __init__(self, health=3):
@@ -240,14 +256,46 @@ class FireAnt(Ant):
         """
         # BEGIN Problem 5
         "*** YOUR CODE HERE ***"
+        for bee in self.place.bees[:]:
+            bee.reduce_health(amount)
+        if self.health <= amount:
+            for bee in self.place.bees[:]:
+                bee.reduce_health(self.damage)
+        super().reduce_health(amount)
         # END Problem 5
 
 # BEGIN Problem 6
 # The WallAnt class
+class WallAnt(Ant):
+    name = 'Wall'
+    food_cost = 4
+    damage = 0
+    implemented = True
+
+    def __init__(self, health=4):
+        super().__init__(health)
 # END Problem 6
 
 # BEGIN Problem 7
 # The HungryAnt Class
+class HungryAnt(Ant):
+    name = 'Hungry'
+    food_cost = 4
+    damage = 0
+    implemented = True
+    
+    chew_cooldown = 3
+    cooldown = 0
+
+    def __init__(self, health=1):
+        super().__init__(health)
+
+    def action(self, gamestate:'GameState'):
+        if self.cooldown > 0:
+            return
+        bee = random_bee(self.place.bees)
+        if bee:
+            bee.reduce_health(bee.health)
 # END Problem 7
 
 

@@ -1,6 +1,9 @@
 #+title: README
 
 This file is to record the progress.
+
+<2025-10-27 Mon> finish hw05
+
 <2025-10-20 Mon> finish hw04, lab05
 
 <2025-10-13 Mon> today finish the lab04
