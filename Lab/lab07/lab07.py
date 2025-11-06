@@ -109,7 +109,7 @@ def without(s:'Link', i:'int'):
     return new_link.rest
 
 
-def duplicate_link(s, val):
+def duplicate_link(s:'Link', val:'int'):
     """Mutates s so that each element equal to val is followed by another val.
 
     >>> x = Link(5, Link(4, Link(5)))
@@ -126,7 +126,14 @@ def duplicate_link(s, val):
     Link(1, Link(2, Link(2, Link(2, Link(2, Link(3))))))
     """
     "*** YOUR CODE HERE ***"
-
+    if s is Link.empty:
+        return
+    elif s.first == val:
+        remain = s.rest
+        s.rest = Link(val, remain)
+        duplicate_link(remain, val)
+    else:
+        duplicate_link(s.rest, val)
 
 class Link:
     """A linked list.
