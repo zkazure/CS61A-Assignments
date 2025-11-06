@@ -84,7 +84,7 @@ class FreeChecking(Account):
         return super().withdraw(amount)
 
 
-def without(s, i):
+def without(s:'Link', i:'int'):
     """Return a new linked list like s but without the element at index i.
 
     >>> s = Link(3, Link(5, Link(7, Link(9))))
@@ -98,6 +98,15 @@ def without(s, i):
     True
     """
     "*** YOUR CODE HERE ***"
+    new_link = Link(None)
+    p = new_link
+    while isinstance(s, Link):
+        if (i != 0):
+            p.rest = Link(s.first)
+            p = p.rest
+        i -= 1
+        s = s.rest
+    return new_link.rest
 
 
 def duplicate_link(s, val):
