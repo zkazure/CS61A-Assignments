@@ -75,7 +75,7 @@ def delete(t:'Tree', x:'int'):
     t.branches = new_branches
 
 
-def max_path_sum(t):
+def max_path_sum(t:'Tree'):
     """Return the maximum path sum of the tree.
 
     >>> t = Tree(1, [Tree(5, [Tree(1), Tree(3)]), Tree(10)])
@@ -83,6 +83,10 @@ def max_path_sum(t):
     11
     """
     "*** YOUR CODE HERE ***"
+    if t.is_leaf():
+        return t.label
+    else:
+        return t.label + max(max_path_sum(b) for b in t.branches)
 
 
 class Tree:
