@@ -1,4 +1,4 @@
-def cumulative_mul(t):
+def cumulative_mul(t:'Tree'):
     """Mutates t so that each node's label becomes the product of its own
     label and all labels in the corresponding subtree rooted at t.
 
@@ -12,6 +12,13 @@ def cumulative_mul(t):
     Tree(5040, [Tree(60, [Tree(3), Tree(4), Tree(5)]), Tree(42, [Tree(7)])])
     """
     "*** YOUR CODE HERE ***"
+    def helper(t:'Tree'):
+        for b in t.branches:
+            t.label *= helper(b)
+        return t.label
+
+    t.label = helper(t)
+    return
 
 
 def prune_small(t, n):
