@@ -46,7 +46,7 @@ def prune_small(t:'Tree', n):
         
 
 
-def delete(t, x):
+def delete(t:'Tree', x:'int'):
     """Remove all nodes labeled x below the root within Tree t. When a non-leaf
     node is deleted, the deleted node's children become children of its parent.
 
@@ -66,13 +66,13 @@ def delete(t, x):
     Tree(1, [Tree(4), Tree(5), Tree(3, [Tree(6)]), Tree(6), Tree(7), Tree(8), Tree(4)])
     """
     new_branches = []
-    for _________ in ________________:
-        _______________________
+    for b in t.branches:
+        delete(b, x)
         if b.label == x:
-            __________________________________
+            new_branches.extend(b.branches)
         else:
-            __________________________________
-    t.branches = ___________________
+            new_branches.append(b)
+    t.branches = new_branches
 
 
 def max_path_sum(t):
