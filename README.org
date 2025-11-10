@@ -2,7 +2,7 @@
 
 This file is to record the progress.
 
-<2025-11-10 Mon> finish lab08, lab09
+<2025-11-10 Mon> finish lab08, lab09, hw07
 
 <2025-11-06 Thu> finish lab06, hw06, lab07
 
