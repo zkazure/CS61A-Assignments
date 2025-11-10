@@ -1,4 +1,4 @@
-def cumulative_mul(t):
+def cumulative_mul(t:'Tree'):
     """Mutates t so that each node's label becomes the product of its own
     label and all labels in the corresponding subtree rooted at t.
 
@@ -12,9 +12,16 @@ def cumulative_mul(t):
     Tree(5040, [Tree(60, [Tree(3), Tree(4), Tree(5)]), Tree(42, [Tree(7)])])
     """
     "*** YOUR CODE HERE ***"
+    def helper(t:'Tree'):
+        for b in t.branches:
+            t.label *= helper(b)
+        return t.label
+
+    t.label = helper(t)
+    return
 
 
-def prune_small(t, n):
+def prune_small(t:'Tree', n):
     """Prune the tree mutatively, keeping only the n branches
     of each node with the smallest labels.
 
@@ -31,14 +38,15 @@ def prune_small(t, n):
     >>> t3
     Tree(6, [Tree(1), Tree(3, [Tree(1), Tree(2)])])
     """
-    while ____:
-        largest = max(____, key=____)
+    while len(t.branches) > n:
+        largest = max(t.branches, key=lambda x: x.label)
         t.branches.remove(largest)
     for b in t.branches:
-        ____
+        prune_small(b, n)
+        
 
 
-def delete(t, x):
+def delete(t:'Tree', x:'int'):
     """Remove all nodes labeled x below the root within Tree t. When a non-leaf
     node is deleted, the deleted node's children become children of its parent.
 
@@ -58,16 +66,16 @@ def delete(t, x):
     Tree(1, [Tree(4), Tree(5), Tree(3, [Tree(6)]), Tree(6), Tree(7), Tree(8), Tree(4)])
     """
     new_branches = []
-    for _________ in ________________:
-        _______________________
+    for b in t.branches:
+        delete(b, x)
         if b.label == x:
-            __________________________________
+            new_branches.extend(b.branches)
         else:
-            __________________________________
-    t.branches = ___________________
+            new_branches.append(b)
+    t.branches = new_branches
 
 
-def max_path_sum(t):
+def max_path_sum(t:'Tree'):
     """Return the maximum path sum of the tree.
 
     >>> t = Tree(1, [Tree(5, [Tree(1), Tree(3)]), Tree(10)])
@@ -75,6 +83,10 @@ def max_path_sum(t):
     11
     """
     "*** YOUR CODE HERE ***"
+    if t.is_leaf():
+        return t.label
+    else:
+        return t.label + max(max_path_sum(b) for b in t.branches)
 
 
 class Tree:
