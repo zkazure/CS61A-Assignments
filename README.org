@@ -2,6 +2,8 @@
 
 This file is to record the progress.
 
+<2025-11-13 Thu> finish hw08
+
 <2025-11-10 Mon> finish lab08, lab09, hw07
 
 <2025-11-06 Thu> finish lab06, hw06, lab07
@@ -13,5 +15,6 @@ This file is to record the progress.
 <2025-10-20 Mon> finish hw04, lab05
 
 <2025-10-13 Mon> today finish the lab04
+
 <2025-10-13 Mon> before today, I had finished the lab03, proj cat, hw03
 
