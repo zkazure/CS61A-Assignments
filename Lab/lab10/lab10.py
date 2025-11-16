@@ -72,7 +72,7 @@ def floor_div(args:'Pair'):
 scheme_t = True   # Scheme's #t
 scheme_f = False  # Scheme's #f
 
-def eval_and(expressions):
+def eval_and(expressions:'Pair'):
     """
     >>> calc_eval(Pair("and", Pair(1, nil)))
     1
@@ -90,6 +90,14 @@ def eval_and(expressions):
     True
     """
     "*** YOUR CODE HERE ***"
+    current, result = expressions, True
+    while current is not nil:
+        result = calc_eval(current.first)
+        if result is scheme_f:
+            return scheme_f
+        current = current.rest
+    return result
+    
 
 bindings = {}
 
