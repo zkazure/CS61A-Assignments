@@ -42,11 +42,16 @@ CREATE TABLE size_of_dogs AS
 
 -- [Optional] Filling out this helper table is recommended
 CREATE TABLE siblings AS
-  SELECT "REPLACE THIS LINE WITH YOUR SOLUTION";
+  SELECT a.child AS first, b.child AS second
+  FROM parents AS a, parents AS b
+  WHERE a.parent=b.parent AND a.child<b.child;
+
 
 -- Sentences about siblings that are the same size
 CREATE TABLE sentences AS
-  SELECT "REPLACE THIS LINE WITH YOUR SOLUTION";
+  SELECT "The two siblings, " || a.first || " and " || a.second || ", have the same size: " || b.size
+  FROM siblings AS a, size_of_dogs AS b, size_of_dogs AS c
+  WHERE a.first=b.name AND a.second=c.name AND b.size=c.size;
 
 
 -- Height range for each fur type where all of the heights differ by no more than 30% from the average height
