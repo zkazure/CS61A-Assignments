@@ -1,4 +1,10 @@
-(define (curry-cook formals body) 'YOUR-CODE-HERE)
+#lang racket
+
+(define (curry-cook formals body)
+  (if (null? formals) body
+      `(lambda (,(car formals)) ,(curry-cook (cdr formals) body))
+      )
+  )
 
 (define (curry-consume curry args)
   'YOUR-CODE-HERE)
