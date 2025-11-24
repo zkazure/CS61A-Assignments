@@ -31,10 +31,13 @@ CREATE TABLE by_parent_height AS
   WHERE a.name=b.child AND b.parent=c.name
   ORDER BY c.height DESC;
 
-
+  
 -- The size of each dog
 CREATE TABLE size_of_dogs AS
-  SELECT "REPLACE THIS LINE WITH YOUR SOLUTION";
+  SELECT name, size
+  FROM dogs, sizes
+  WHERE height>min AND height<=max;
+
 
 
 -- [Optional] Filling out this helper table is recommended
