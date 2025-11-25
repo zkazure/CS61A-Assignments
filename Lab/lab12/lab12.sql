@@ -36,7 +36,11 @@ CREATE TABLE pairs AS
   ORDER BY a.seats+b.seats DESC;
 
 CREATE TABLE big AS
-  SELECT "REPLACE THIS LINE WITH YOUR SOLUTION";
+  SELECT a.course
+  FROM finals AS a, sizes AS b
+  WHERE a.hall=b.room
+  GROUP BY a.course
+  HAVING SUM(seats)>=1000;
 
 CREATE TABLE remaining AS
   SELECT "REPLACE THIS LINE WITH YOUR SOLUTION";
