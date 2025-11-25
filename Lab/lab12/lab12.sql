@@ -43,5 +43,7 @@ CREATE TABLE big AS
   HAVING SUM(seats)>=1000;
 
 CREATE TABLE remaining AS
-  SELECT "REPLACE THIS LINE WITH YOUR SOLUTION";
-
+  SELECT a.course AS course, SUM(seats)-MAX(seats) AS remaining
+  FROM finals AS a, sizes AS b
+  WHERE a.hall=b.room
+  GROUP BY a.course;
